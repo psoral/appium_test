@@ -1,0 +1,5 @@
+Appium-Python-Client==5.1.1
+pytest~=8.3.5
+python-decouple~=3.8
+selenium~=4.32.0
+loguru==0.7.3
