@@ -1,4 +1,4 @@
-def test_open_app(driver, pages):
+def test_basic_checkout(driver, pages):
     pages.login.login_with_credentials()
 
     pp = pages.products
