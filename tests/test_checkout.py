@@ -1,5 +1,5 @@
 def test_basic_checkout(driver, pages):
-    pages.login.login_with_credentials()
+    pages.login.login()
 
     products_page = pages.products
     products_page.select_first_product()

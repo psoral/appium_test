@@ -33,4 +33,5 @@ pip install -r requirements.txt
 
 ```bash
 pytest tests/test_checkout.py -svrA
+pytest tests/test_login_errors.py -svrA
 ```
