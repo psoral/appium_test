@@ -26,6 +26,7 @@ class ProductsPage(BasePage):
         return self.return_item_from_products_list(index=0)
 
     def add_product_to_cart(self):
+        self.swipe_down_until_visible(self.ADD_TO_CART_BUTTON)
         self.click(self.ADD_TO_CART_BUTTON)
 
     def select_first_product(self):

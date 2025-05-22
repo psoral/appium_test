@@ -9,6 +9,10 @@ class CartPage(BasePage):
     POSTAL_CODE = (AppiumBy.ACCESSIBILITY_ID, "test-Zip/Postal Code")
     CONTINUE = (AppiumBy.ACCESSIBILITY_ID, "test-CONTINUE")
     FINISH = (AppiumBy.ACCESSIBILITY_ID, "test-FINISH")
+    CHECKOUT_COMPLETE = (
+        AppiumBy.XPATH,
+        '//android.widget.TextView[@text="CHECKOUT: COMPLETE!"]',
+    )
 
     def wait_for_item(self):
         self._wait_for_element_presence(self.TEST_ITEM)
@@ -32,6 +36,7 @@ class CartPage(BasePage):
         self.click_on_continue()
 
     def click_finish(self):
+        self.swipe_down_until_visible(self.FINISH)
         self.click(self.FINISH)
 
     def return_item_in_cart(self):
@@ -43,6 +48,4 @@ class CartPage(BasePage):
         return text_views[0].text
 
     def wait_for_checkout_completion(self):
-        self.get_element(
-            (AppiumBy.XPATH, '//android.widget.TextView[@text="CHECKOUT: COMPLETE!"]')
-        )
+        return self._wait_for_element_presence(self.CHECKOUT_COMPLETE)

@@ -3,6 +3,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from appium.webdriver.webdriver import WebDriver
 from typing import Tuple, Optional
+from selenium.common.exceptions import TimeoutException
 
 
 class BasePage:
@@ -54,6 +55,30 @@ class BasePage:
         logger.info("Swiping up")
         size = self.driver.get_window_size()
         start_x = size['width'] / 2
-        start_y = size['height'] * 0.8
+        start_y = size['height'] * 0.4
         end_y = size['height'] * 0.2
         self.driver.swipe(start_x, start_y, start_x, end_y, duration)
+
+    def is_element_visible(self, locator: Tuple[str, str], timeout: Optional[int] = None) -> bool:
+        logger.info(f"Checking visibility of element: {locator}")
+        try:
+            self._wait_for_element_visibility(locator, timeout)
+            return True
+        except TimeoutException:
+            return False
+
+    def swipe_down_until_visible(
+            self,
+            locator: Tuple[str, str],
+            max_swipes: int = 5,
+            timeout: int = 1
+    ) -> bool:
+        logger.info(f"Swiping down to find element: {locator}")
+        for attempt in range(max_swipes):
+            if self.is_element_visible(locator, timeout):
+                logger.info(f"Element found after {attempt} swipe(s): {locator}")
+                return True
+            self.swipe_up()
+            logger.debug(f"Swiped down ({attempt + 1}/{max_swipes})")
+        logger.warning(f"Element not found after {max_swipes} swipes: {locator}")
+        return False
